@@ -18,7 +18,4 @@ def test_check_pasword(demo_user):
 def test_display(demo_user):
     assert len(demo_user.display()) == 3
 
-def test_create_user_list():
-    assert True
-
 
