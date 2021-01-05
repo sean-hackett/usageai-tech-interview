@@ -12,7 +12,6 @@ def demo_user():
     DOB = "19960802"
     return User(first, last, DOB, email, password)
 
-
 def test_check_pasword(demo_user):
     assert demo_user.check_pasword("password")
 
