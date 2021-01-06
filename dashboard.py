@@ -11,7 +11,6 @@ NAGER_API_BASE_v1 = 'https://date.nager.at/api/v1/Get'
 NAGER_API_BASE_v2 = 'https://date.nager.at/api/v2'
 SALUT_API_BASE = 'https://fourtonfish.com/hellosalut'
 
-@st.cache
 def get_response(base, params):
     ''' Gets the response of an API request
 
@@ -117,7 +116,6 @@ def get_holidays(country_code, n_last_years, this_year = datetime.now().year):
 
         '''
 
-
     base = NAGER_API_BASE_v1
 
     n_holidays_in_year = pd.DataFrame(columns = ['year', 'n_holidays']).set_index('year')
@@ -170,12 +168,6 @@ def main():
 
     N_LAST_YEARS = 10
     build_holidays_chart(country_code, N_LAST_YEARS)
-
-# For debugging
-# def main():
-#     a = get_holidays('US', 10)
-#     print(a)
-
 
 if __name__ == '__main__':
     main()
