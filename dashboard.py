@@ -166,12 +166,10 @@ def main():
     country_code = st.selectbox('Select a country code',
                                 country_codes)
 
-    N_LAST_YEARS = 10
-    build_holidays_chart(country_code, N_LAST_YEARS)
-
     st.markdown(f'You selected country code - {country_code}')
 
-
+    N_LAST_YEARS = 10
+    build_holidays_chart(country_code, N_LAST_YEARS)
 
 if __name__ == '__main__':
     main()
