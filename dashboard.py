@@ -2,9 +2,39 @@
 import requests
 import streamlit as st
 from random import randint
+import numpy as np
+from datetime import datetime
+import matplotlib.pyplot as plt
+import pandas as pd
 
-NAGER_API_BASE = 'https://date.nager.at/api/v2'
+NAGER_API_BASE_v1 = 'https://date.nager.at/api/v1/Get'
+NAGER_API_BASE_v2 = 'https://date.nager.at/api/v2'
 SALUT_API_BASE = 'https://fourtonfish.com/hellosalut'
+
+@st.cache
+def get_response(base, params):
+    ''' Gets the response of an API request
+
+    Inputs:
+        base (str) The API base
+        params (str) The API params
+
+    Returns:
+        response.json() (dict) The response
+
+    '''
+
+
+    # E.g.: 'https://fourtonfish.com/hellosalut' + '/' + '?ip=8.8.8.8'
+    url = base + '/' + params
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        raise SystemExit(e)
+
+    return response.json()
 
 @st.cache
 def load_country_codes():
@@ -19,20 +49,9 @@ def load_country_codes():
             request to the Nager.Date API fails.
     """
 
-
-    url = '/'.join([NAGER_API_BASE, 'AvailableCountries'])
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-            raise SystemExit(e)
-
-    #### TODO - Process the response ####
-
-    country_codes = [country['key'] for country in response.json()]
-
-
-    #####################################
+    base = NAGER_API_BASE_v2
+    params = 'AvailableCountries'
+    country_codes = [country['key'] for country in get_response(base, params)]
 
     return country_codes
 
@@ -78,16 +97,63 @@ def get_salutation(ip):
 
     '''
 
-    url = '/'.join([SALUT_API_BASE, f'?ip={ip}'])
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        raise SystemExit(e)
-
-    salutation = response.json()['hello']
+    base = SALUT_API_BASE
+    params = f'?ip={ip}'
+    salutation = get_response(base, params)['hello']
 
     return salutation
+
+@st.cache
+def get_holidays(country_code, n_last_years, this_year = datetime.now().year):
+    ''' Get the holidays (dataframe) based on params
+
+        Inputs:
+            country_code (str) Which country are we looking at
+            n_last_years (int) How many past years do we want to grab the n_holidays for
+            this_year (int) The current year
+
+        Returns:
+            n_holidays_in_year (dataframe) The number of holidays, indexed by their year numbers (e.g. 2021)
+
+        '''
+
+
+    base = NAGER_API_BASE_v1
+
+    n_holidays_in_year = pd.DataFrame(index = ['year'], columns = ['n_holidays'])
+
+    for year in range(this_year - n_last_years + 1, this_year + 1):
+        params = f'{country_code}/{year}'
+        n_holidays_in_year.loc[year, 'n_holidays'] = len(get_response(base, params))
+
+    return n_holidays_in_year
+
+def build_holidays_chart(country_code, n_last_years, this_year = datetime.now().year):
+    ''' Build the holidays chart
+
+        Inputs:
+            country_code (str) Which country are we looking at
+            n_last_years (int) How many past years do we want to grab the n_holidays for
+            this_year (int) The current year
+
+        Returns:
+            chart (st.line_chart) The line chart of the number of holidays, indexed by year (e.g. 2021)
+
+        '''
+
+    def build_chart(data):
+        return st.line_chart(data)
+
+    n_holidays_in_year = get_holidays(country_code, n_last_years, this_year)
+    chart = build_chart(n_holidays_in_year)
+
+    # Testing:
+    # n_holidays_in_year = pd.DataFrame(index = ['year'], columns = ['n_holidays'])
+    # n_holidays_in_year.loc[2020, 'n_holidays'] = 5
+    # n_holidays_in_year.loc[2021, 'n_holidays'] = 6
+
+    return chart
+
 
 def main():
     # Salutation
@@ -100,7 +166,11 @@ def main():
     country_code = st.selectbox('Select a country code',
                                 country_codes)
 
-    st.markdown('You selected country code -', country_code)
+    N_LAST_YEARS = 10
+    build_holidays_chart(country_code, N_LAST_YEARS)
+
+    st.markdown(f'You selected country code - {country_code}')
+
 
 
 if __name__ == '__main__':
