@@ -10,14 +10,22 @@ def hash256(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
 
 class User:
-    def __init__(self, response):
+    def __init__(self, ):
+        pass
+
+    def init_response(self, response):
+        self.username = response['login']['username']
+
         self.first_name = response['name']['first']
         self.last_name = response['name']['last']
         self.dob = response['dob']['date']
-        self.username = response['login']['username']
         self.salt = response['login']['salt']
 
         self.hashed_password = hash256(response['login']['password'] + self.salt)
+
+    def init_list(self, list_):
+        self.username, self.first_name, self.last_name, self.dob, self.salt, self.hashed_password = list_
+
 
 @st.cache
 def generate_users(n_users):
@@ -38,17 +46,19 @@ def generate_users(n_users):
     response = get_response(base, params)
     users = dict()
     for user_response in response['results']:
-        user = User(user_response)
+        user = User()
+        user.init_response(user_response)
         username = user.username
         users[username] = user
 
         # For debugging:
         print([{username: f'{user.first_name} {user.last_name}, {user_response["login"]["password"]}'} for username, user in users.items()])
+        print('\n')
 
     return users
 
 @st.cache
-def validate_user(users, username, attempted_password):
+def validate_user(user, attempted_password):
     ''' Validate the user's username and password
 
     Inputs:
@@ -62,7 +72,6 @@ def validate_user(users, username, attempted_password):
 
     '''
 
-    user = users[username]
     hashed_password = user.hashed_password
     attempted_hash = hash256(attempted_password + user.salt)
 
@@ -70,11 +79,43 @@ def validate_user(users, username, attempted_password):
     print(f'attempted_hash = {attempted_hash}')
     return attempted_hash == hashed_password
 
-def
+def update_db(db, users):
+    # Create db and table if not exists
+    db.create_db()
+    db.execute('''
+               CREATE TABLE IF NOT EXISTS users
+                (username, first_name, last_name, dob, salt, hashed_password)
+               ''')
+
+    # Insert users
+    insertions = [(user.username, user.first_name, user.last_name, user.dob, user.salt, user.hashed_password) \
+               for username, user in users.items()]
+    db.executemany('''
+                   INSERT INTO users values (?, ?, ?, ?, ?, ?)
+                   ''', insertions)
+
+    # Close connection
+    db.close()
+
+def get_row_from_db(db, username):
+    db.connect()
+    statement = '''
+                SELECT * FROM users WHERE username = ? LIMIT 1
+                '''
+    insertions = (username,)
+    db.execute(statement, insertions)
+
+    return db.fetched
 
 def main():
     N_USERS = 100
+    DB_PATH = 'users.sqlite3'
+
+    # This DB is cumulative: it contains all previously generated users
+    db = DB(DB_PATH)
     users = generate_users(N_USERS)
+    if users:
+        update_db(db, users)
 
     # Login form
     # https://discuss.streamlit.io/t/is-there-a-way-to-create-a-form-with-streamlit/7057/2
@@ -84,13 +125,15 @@ def main():
     user = None
 
     if username and password:
-        if username in users:
-            user = users[username]
+        row = get_row_from_db(db, username)
+        if row:
+            user = User()
+            user.init_list(row[0])
         else:
             st.markdown('That username doesn\'t exist! Please try again.')
 
     if user:
-        if validate_user(users, username, password):
+        if validate_user(user, password):
             st.markdown(f'Welcome back, {user.first_name} {user.last_name}! Your DOB is {user.dob}')
         else:
             st.markdown('Incorrect username or password! Please try again.')

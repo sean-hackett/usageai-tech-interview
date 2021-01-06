@@ -4,3 +4,5 @@ random
 datetime
 pandas
 hashlib
+sqlite3
+os

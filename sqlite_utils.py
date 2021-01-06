@@ -6,6 +6,7 @@ class DB:
     def __init__(self, path):
         self.path = path
         self.conn = None
+        self.cursor = None
 
     def create_db(self):
         """ create a database connection to a SQLite database
@@ -14,7 +15,8 @@ class DB:
         """
 
         if os.path.exists(self.path):
-            conn = None
+            return True
+        else:
             try:
                 conn = sqlite3.connect(self.path)
                 print(f'Created {self.path} as sqlite3 version {sqlite3.version}')
@@ -28,10 +30,9 @@ class DB:
                     self.conn = None
                 return success
 
-        return True
-
     def connect(self):
         self.conn = sqlite3.connect(self.path)
+        self.cursor = self.conn.cursor()
 
     def commit(self):
         self.conn.commit()
@@ -39,13 +40,19 @@ class DB:
     def execute(self, *args):
         if not self.conn:
             self.connect()
-        self.conn.execute(*args)
+        if not self.cursor:
+            self.cursor = self.conn.cursor()
+        self.cursor.execute(*args)
+        self.fetched = self.cursor.fetchall()
         self.commit()
 
     def executemany(self, *args):
         if not self.conn:
             self.connect()
-        self.conn.execute(*args)
+        if not self.cursor:
+            self.cursor = self.conn.cursor()
+        self.cursor.executemany(*args)
+        self.fetched = self.cursor.fetchall()
         self.commit()
 
     def close(self):
