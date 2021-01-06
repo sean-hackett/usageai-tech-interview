@@ -124,7 +124,7 @@ def get_holidays(country_code, n_last_years, this_year = datetime.now().year):
 
     for year in range(this_year - n_last_years + 1, this_year + 1):
         params = f'{country_code}/{year}'
-        n_holidays_in_year.loc[year, 'n_holidays'] = len(get_response(base, params))
+        n_holidays_in_year.loc[int(year), 'n_holidays'] = len(get_response(base, params))
 
     return n_holidays_in_year
 
