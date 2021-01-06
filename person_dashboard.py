@@ -2,6 +2,7 @@ import requests
 import streamlit as st
 from dashboard import get_response
 import hashlib
+from sqlite_utils import DB
 
 RANDOMUSER_API_BASE = 'https://randomuser.me/api'
 
@@ -68,6 +69,8 @@ def validate_user(users, username, attempted_password):
     print(f'hashed_password = {hashed_password}')
     print(f'attempted_hash = {attempted_hash}')
     return attempted_hash == hashed_password
+
+def
 
 def main():
     N_USERS = 100
