@@ -1,6 +1,7 @@
 """Main module for the Streamlit app"""
 import requests
 import streamlit as st
+from random import randint
 
 NAGER_API_BASE = 'https://date.nager.at/api/v2'
 SALUT_API_BASE = 'https://fourtonfish.com/hellosalut'
@@ -46,8 +47,6 @@ def generate_random_ip():
         ip (str) The randomly generated IP address
 
      '''
-
-    from random import randint
 
     N_PARTS = 4 # e.g.: 8.8.8.8
     RANGE_MIN, RANGE_MAX = 0, 255
