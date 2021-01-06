@@ -1,2 +1,6 @@
 requests
 streamlit
+faker
+datetime
+numpy
+pandas
