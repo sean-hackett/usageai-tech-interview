@@ -28,7 +28,8 @@ def load_country_codes():
 
     #### TODO - Process the response ####
 
-    country_codes = response.json()
+    country_codes = [country['key'] for country in response.json()]
+
 
     #####################################
 
