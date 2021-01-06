@@ -120,7 +120,7 @@ def get_holidays(country_code, n_last_years, this_year = datetime.now().year):
 
     base = NAGER_API_BASE_v1
 
-    n_holidays_in_year = pd.DataFrame(index = ['year'], columns = ['n_holidays'])
+    n_holidays_in_year = pd.DataFrame(columns = ['year', 'n_holidays']).set_index('year')
 
     for year in range(this_year - n_last_years + 1, this_year + 1):
         params = f'{country_code}/{year}'
@@ -147,8 +147,8 @@ def build_holidays_chart(country_code, n_last_years, this_year = datetime.now().
     n_holidays_in_year = get_holidays(country_code, n_last_years, this_year)
     chart = build_chart(n_holidays_in_year)
 
-    # Testing:
-    # n_holidays_in_year = pd.DataFrame(index = ['year'], columns = ['n_holidays'])
+    # Manual testing, because I got rate-limited by the API:
+    # n_holidays_in_year = pd.DataFrame(columns = ['year', 'n_holidays']).set_index('year')
     # n_holidays_in_year.loc[2020, 'n_holidays'] = 5
     # n_holidays_in_year.loc[2021, 'n_holidays'] = 6
 
@@ -170,6 +170,12 @@ def main():
 
     N_LAST_YEARS = 10
     build_holidays_chart(country_code, N_LAST_YEARS)
+
+# For debugging
+# def main():
+#     a = get_holidays('US', 10)
+#     print(a)
+
 
 if __name__ == '__main__':
     main()
