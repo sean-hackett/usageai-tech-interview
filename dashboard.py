@@ -85,6 +85,7 @@ def generate_random_ip():
             ip = '.'.join([str(part) for part in parts])
             return ip
 
+@st.cache
 def get_salutation(ip):
     ''' Get salutation (str) based on an IP address (str)
 
