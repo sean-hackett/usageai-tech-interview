@@ -17,12 +17,17 @@ def generate_users(n_users):
     params = f'?results={n_users}'
 
     response = get_response(base, params)
-    users = [User(user_response) for user_response in response['results']]
+    users = dict()
+    for user_response in response['results']:
+        user = User(user_response)
+        username = user.username
+        users[username] = User
 
     return users
 
 def main():
     N_USERS = 100
+
     users = generate_users(N_USERS)
     print(users)
 
