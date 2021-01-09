@@ -10,7 +10,7 @@ from user import User
 # Base URL for the randomuser api to fetch only the required details
 RANDOM_API_URL = 'https://randomuser.me/api/?seed=usageai&results=100&inc=name,email,login,dob'
 
-        
+
 @st.cache(suppress_st_warning=True, show_spinner=False)
 def load_random_users():
     """Loads random users available from the Random User Generator API
@@ -155,6 +155,6 @@ def main():
     except SystemExit:
         st.error("Service Temporarily Unavailable for randomuser.me API! Please refresh the page.")
 
-    
+   
 if __name__ == '__main__':
     main()
