@@ -1,2 +1,95 @@
-requests
-streamlit
+altair==4.1.0
+appdirs==1.4.4
+argon2-cffi==20.1.0
+astor==0.8.1
+async-generator==1.10
+attrs==20.3.0
+backcall==0.2.0
+base58==2.1.0
+bleach==3.3.0
+blinker==1.4
+brotlipy==0.7.0
+cachetools==4.2.1
+certifi==2020.12.5
+cffi @ file:///C:/ci/cffi_1613247279197/work
+chardet @ file:///C:/ci/chardet_1607690654534/work
+click==7.1.2
+colorama==0.4.4
+cryptography @ file:///C:/ci/cryptography_1615532531877/work
+decorator==4.4.2
+defusedxml==0.7.1
+distlib==0.3.0
+entrypoints==0.3
+filelock==3.0.12
+gevent==21.1.2
+gitdb==4.0.5
+GitPython==3.1.14
+greenlet==1.0.0
+grequests==0.6.0
+idna @ file:///home/linux1/recipes/ci/idna_1610986105248/work
+ipykernel==5.5.0
+ipython==7.21.0
+ipython-genutils==0.2.0
+ipywidgets==7.6.3
+jedi==0.18.0
+Jinja2==2.11.3
+jsonschema==3.2.0
+jupyter-client==6.1.12
+jupyter-core==4.7.1
+jupyterlab-pygments==0.1.2
+jupyterlab-widgets==1.0.0
+MarkupSafe==1.1.1
+mistune==0.8.4
+nbclient==0.5.3
+nbconvert==6.0.7
+nbformat==5.1.2
+nest-asyncio==1.5.1
+notebook==6.2.0
+numpy==1.20.1
+packaging==20.9
+pandas==1.2.3
+pandocfilters==1.4.3
+parso==0.8.1
+pickleshare==0.7.5
+Pillow==8.1.2
+pipenv==2020.6.2
+prometheus-client==0.9.0
+prompt-toolkit==3.0.17
+protobuf==3.15.6
+pyarrow==3.0.0
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pydeck==0.6.1
+Pygments==2.8.1
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+pyparsing==2.4.7
+pyrsistent==0.17.3
+PySocks @ file:///C:/ci/pysocks_1605287845585/work
+python-dateutil==2.8.1
+pytz==2021.1
+pywin32==300
+pywinpty==0.5.7
+pyzmq==22.0.3
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+Send2Trash==1.5.0
+six==1.15.0
+smmap==3.0.5
+streamlit==0.79.0
+terminado==0.9.3
+testpath==0.4.4
+toml==0.10.2
+toolz==0.11.1
+tornado==6.1
+traitlets==5.0.5
+tzlocal==2.1
+urllib3 @ file:///tmp/build/80754af9/urllib3_1615837158687/work
+validators==0.18.2
+virtualenv==20.0.23
+virtualenv-clone==0.5.4
+watchdog==2.0.2
+wcwidth==0.2.5
+webencodings==0.5.1
+widgetsnbextension==3.5.1
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306167264/work
+wincertstore==0.2
+zope.event==4.5.0
+zope.interface==5.2.0
