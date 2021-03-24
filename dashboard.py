@@ -67,13 +67,11 @@ def load_country_codes():
     except requests.exceptions.RequestException as e:
         raise SystemExit(e)
 
-    # TODO - Process the response ####
-
+    # Process the response to JSON and return list of country codes
     country_codes = response.json()
+    country_code_list = [dic["key"] for dic in country_codes]
 
-    #####################################
-
-    return country_codes
+    return country_code_list
 
 
 def main():
