@@ -133,10 +133,12 @@ def get_holidays(country_code, data_range=10):
 
 
 def main():
+    # Challenge 1
     random_ip_addr = generate_random_ip()
     greeting = get_greeting(random_ip_addr)
     st.markdown(greeting)
 
+    # Challenge 2
     country_codes = load_country_codes()
 
     country_code = st.selectbox("Select a country code", country_codes)
@@ -144,6 +146,7 @@ def main():
     # f-string resolves TypeError, which was likely caused by unintentional indention
     st.markdown(f"You selected country code - {country_code}")
 
+    # Challenge 3
     df = get_holidays(country_code)
     st.line_chart(df)
 
