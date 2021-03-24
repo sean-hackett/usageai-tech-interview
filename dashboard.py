@@ -49,7 +49,7 @@ def get_greeting(ip) -> str:
 
 
 @st.cache
-def load_country_codes():
+def load_country_codes() -> list:
     """Load country codes available from the Nager.Date API.
 
     Returns:
