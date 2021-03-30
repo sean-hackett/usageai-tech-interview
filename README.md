@@ -26,7 +26,7 @@ Run the Streamlit app:
 streamlit run dashboard.py
 ```
 
-Streamlit will tell you where to find your live app, likely at ```localhost:8501```. You can open this address in your browser. You should see an error on the webpage. We'll fix this in Challenge 2.
+Streamlit will tell you where to find your live app, likely at `localhost:8501`. You can open this address in your browser. You should see an error on the webpage. We'll fix this in Challenge 2.
 
 ## Submitting
 
@@ -40,10 +40,9 @@ Next, we'll build an application to which users will can log-in and view their o
 
 We'll use Streamlit to render our applications and handle interactivity. You can see the Streamlit documentation [here](https://docs.streamlit.io/en/stable/api.html). Streamlit has a menu of interactive components, like dropdown menus and buttons, and data visualization tools, like line and bar charts.
 
-Be sure to update the ```requirements.txt``` throughout the interview, as appropriate.
+Be sure to update the `requirements.txt` throughout the interview, as appropriate.
 
 Good luck!
-
 
 #### Challenge 1
 
@@ -55,15 +54,13 @@ Randomly generate an IP address. Use the Hello, Salut! API to find the salutatio
 
 You can find documentation for the Hello, Salut! API [here](https://fourtonfish.com/project/hellosalut-api/).
 
-
 #### Challenge 2
 
-We already got started by making a request to the Nager.Date API's ```AvailableCountries``` endpoint.
+We already got started by making a request to the Nager.Date API's `AvailableCountries` endpoint.
 
-Notice that the ```load_country_codes``` function does not return a list of country codes. Fix the ```load_country_codes``` function so that it returns the list of country codes provided by the Nager.Date API.
+Notice that the `load_country_codes` function does not return a list of country codes. Fix the `load_country_codes` function so that it returns the list of country codes provided by the Nager.Date API.
 
 You can find documentation for the Nager.Date API [here](https://date.nager.at/swagger/index.html).
-
 
 #### Challenge 3
 
@@ -71,12 +68,11 @@ Holiday time! When the user selects a country code from the dropdown, display a 
 
 Use a Numpy array to store the number of holidays per year.
 
-
 #### Challenge 4
 
 Enough salutations and holidays. Let's create a new Streamlit app.
 
-Create ```person_dashboard.py```.
+Create `person_dashboard.py`.
 
 Use the RandomUser API, available [here](https://randomuser.me/).
 
@@ -90,8 +86,20 @@ Be sure to store the user data in an object-oriented fashion. You can ignore any
 
 Use Streamlit's caching to improve your app's performance.
 
-If you make it this far, try improving the cache so that the cache persists across runs of the Streamlit app. Do not use the ```persist``` argument on the ```st.cache``` function. Roll your own solution. Hint, hint - write to disk.
+If you make it this far, try improving the cache so that the cache persists across runs of the Streamlit app. Do not use the `persist` argument on the `st.cache` function. Roll your own solution. Hint, hint - write to disk.
 
 ## Questions?
 
 Email sean@usage.ai.
+
+## Solution
+
+Completed all four parts of the challenge.
+Tested successfully.
+
+Added mongodb backend to save the users on disk, so API call performed only once.
+Cached the API call so successive calls are much faster.
+
+execute "docker-compose -f compose.yaml up -d" to bring up the entire stack and access the app at "http://localhost:8501/" and see the db records at "http://localhost:8081/"
+
+#NOTE: Replace "localhost" by VM IP "192.168.99.100" if using docker on a VM.

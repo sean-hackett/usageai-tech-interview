@@ -1,2 +1,4 @@
 requests
 streamlit
+bokeh
+pymongo

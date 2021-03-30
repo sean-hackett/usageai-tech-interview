@@ -1,0 +1,36 @@
+version: '3'
+services:
+    db:
+        container_name: mongodb
+        image: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb-volume:/data/db
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=password
+    app:
+        container_name: streamlit-app
+        image: ardagon/usage-ai:4.0
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - 8501:8501
+    express:
+        container_name: mongo-express
+        image: mongo-express
+        restart: always
+        depends_on:
+            - app
+        ports:
+          - 8081:8081
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+            - ME_CONFIG_MONGODB_SERVER=mongodb
+volumes:
+    mongodb-volume:
+        driver: local
